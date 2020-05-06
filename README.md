@@ -1,22 +1,33 @@
-# Quasar App (meu_app)
+# Google Keep Clone
 
-A Quasar Framework app
+Um app web baseado no Google Keep para ensinar os fundamentos do desenvolvimento web.
 
-## Install the dependencies
+## Pré-requisitos
+
+Essa aplicação front-end foi construída utilizando o Quasar Framework.
+
+Portanto você precisa instalar o [Node.js](https://nodejs.org/en/download/) e depois instalar a [linha de comando do Quasar](https://quasar.dev/quasar-cli/installation).
+
+Depois de instalar o Node.js você vai ter o comando `npm`, aí é só rodar:
+
+```bash
+npm install -g @quasar/cli
+```
+
+## Instalar as dependências
+
+Depois de instalar o Node.js e a linha de comando do Quasar você precisa instalar as dependências específicas do projeto.
+
+Em um terminal dentro da pasta do projeto rode o comando:
+
 ```bash
 npm install
 ```
 
-### Start the app in development mode (hot-code reloading, error reporting, etc.)
+### Rodando a aplicação
+
+Para subir o servidor de desenvolvimento com a aplicação rode o seguinte comando dentro da pasta do projeto:
+
 ```bash
 quasar dev
 ```
-
-
-### Build the app for production
-```bash
-quasar build
-```
-
-### Customize the configuration
-See [Configuring quasar.conf.js](https://quasar.dev/quasar-cli/quasar-conf-js).
