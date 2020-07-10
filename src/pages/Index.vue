@@ -11,7 +11,7 @@
       <div class="col-xs-12 col-sm-3 col-xl-2">
         <lista-de-tarefas
           :tarefas="tarefas"
-          :quando-tarefa-mudar="alternarFinalizacaoDaTarefa"
+          :quando-tarefa-mudar="atualizarTarefa"
           :quando-tarefa-for-deletada="deletarTarefa" />
       </div>
     </div>
@@ -45,7 +45,7 @@ export default {
       return api.get('/tarefas')
         .then(listaDeTarefas => { this.tarefas = listaDeTarefas; });
     },
-    alternarFinalizacaoDaTarefa(tarefa, novosDados) {
+    atualizarTarefa(tarefa, novosDados) {
       const data = { tarefa: novosDados };
 
       return api.put(`/tarefas/${tarefa.id}`, data)

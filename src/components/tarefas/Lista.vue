@@ -1,7 +1,7 @@
 <template>
   <q-list>
     <q-item clickable v-ripple
-      v-for="tarefa in tarefas"
+      v-for="(tarefa, posicao) in tarefas"
       :key="tarefa.id">
 
       <q-item-section avatar>
@@ -16,7 +16,7 @@
         class="descricao-tarefa"
         :class="{ 'tarefa-finalizada': tarefa.finalizada }"
         :contentEditable="editavel"
-        @input="(event) => atualizaDescricaoTarefa(tarefa, event)"
+        @input="(event) => atualizaDescricaoTarefa(tarefa, posicao, event)"
         v-html="tarefa.descricao" />
 
       <q-item-section top side v-if="editavel">
@@ -45,6 +45,30 @@ import { debounce } from 'quasar';
 
 import { setEndOfContentEditable } from '../../services/textUtils';
 
+
+function findNode(element, nodeToFind) {
+
+  if (element.isEqualNode(nodeToFind)) {
+    return element;
+  }
+
+  if (element.childNodes.length === 0) {
+    return;
+  }
+
+  let foundNode;
+
+  for(let node of element.childNodes) {
+    foundNode = findNode(node, nodeToFind);
+
+    if (foundNode) {
+      break;
+    }
+  }
+
+  return foundNode;
+}
+
 export default {
   props: {
     tarefas: {
@@ -71,12 +95,32 @@ export default {
     this.atualizaDescricaoTarefa = debounce(this.atualizaDescricaoTarefa, 500);
   },
   methods: {
-    atualizaDescricaoTarefa(tarefa, event) {
-      const novaDescricao = event.target.innerHTML.trim();
+    atualizaDescricaoTarefa(tarefa, posicao, event) {
+      const editableElement = event.target;
+      const novaDescricao = editableElement.innerHTML.trim();
       const novosDadosTarefa = { descricao: novaDescricao };
 
+      const selection = window.getSelection();
+
+      const range = selection.getRangeAt(0);
+
+      const endContainer = range.endContainer;
+      const endOffset = range.endOffset;
+
+      // debugger;
+
       this.quandoTarefaMudar(tarefa, novosDadosTarefa)
-        .then(() => setEndOfContentEditable(event.target));
+        .then(() => {
+
+          // debugger;
+
+          const newEndContainer = findNode(editableElement, endContainer);
+
+          if (newEndContainer) {
+            selection.collapse(newEndContainer, endOffset);
+          }
+
+        });
     },
     atualizaFinalizacaoTarefa(tarefa, novoValor) {
       const novosDadosTarefa = { finalizada: novoValor };
